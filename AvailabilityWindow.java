@@ -17,7 +17,7 @@ public class AvailabilityWindow extends Window {
 	private JPanel confirmPanel = new JPanel();
 	
 	public AvailabilityWindow(String title, int width, int height) {
-		super(new GridLayout(2, 1));
+		super();
 		options.setLayout(new GridLayout(8, 25));
 		confirmPanel.setLayout(new GridLayout(1, 2));
 		

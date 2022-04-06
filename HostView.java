@@ -25,7 +25,7 @@ public class HostView extends Window {
 		
 		editAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AvailabilityWindow av = new AvailabilityWindow("Host Login", 500, 500);
+				AvailabilityWindow av = new AvailabilityWindow("Host Login", 800, 300);
 			}
 		});
 		

@@ -1,12 +1,18 @@
 package edu.cuny.csi.csc330.groupproject;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.time.LocalDate;
 
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 //import javax.swing.JPanel;
 
@@ -40,6 +46,18 @@ public class Calendar extends JPanel {
 			calendarCells[i - 1] = new JPanel(new FlowLayout());
 			calendarCells[i - 1].setBorder(BorderFactory.createLineBorder(Color.black));
 			calendarCells[i - 1].add(new JLabel(day + ""));
+			calendarCells[i - 1].addMouseListener(new MouseAdapter() { 
+		          public void mousePressed(MouseEvent me) { 
+		            Object clicked = me.getSource();
+		            
+		            for (Component c : ((Container) clicked).getComponents()) {
+		            	if(c instanceof JLabel) {
+		            		// on date click
+		            		System.out.println(((JLabel) c).getText());
+		            	}
+		            }
+		          } 
+		        }); 
 			
 			// set size, but also resized all cells as content is added to any
 			
@@ -53,7 +71,14 @@ public class Calendar extends JPanel {
 		for (int i = 0; i < 42; i++) {
 			add(calendarCells[i]);
 		}
+		
+		
+		
+		
+		
 	}
+	
+	
 	
 	// real redraw(month num, year): called when user clicks through arrows to change month
 	// show be parent to HostCalendar and AttendeeCalendar?
