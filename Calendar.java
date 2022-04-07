@@ -7,41 +7,66 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.time.LocalDate;
 
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-//import javax.swing.JPanel;
 
 public class Calendar extends JPanel {
 	private int startDay;
-	private int month;
 	private LocalDate today;
 	
 	private final static int[] MONTH_SIZES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	
-	private JPanel calendarCells[] = new JPanel[42]; // 42 because the most rows a month can take up is 6, 7x6 is 42 boxes
+	private JPanel calendarCells[] = new JPanel[49]; // 42 because the most rows a month can take up is 6, 7x6 is 42 boxes
 	
 	public Calendar(int month, int year) {
 		redraw(month, year);
 	}
 	
 	public void redraw(int month, int year) {
-		setLayout(new GridLayout(6, 7));
+		setLayout(new GridLayout(7, 7));
 		LocalDate today = LocalDate.now();
 		
 		LocalDate first = LocalDate.of(year, month, 1);
 		startDay = first.getDayOfWeek().getValue();
 		
-		for(int i = 0; i < 42; i++) {
+		drawCalendar(month, year);
+	}
+	
+	private void drawCalendar(int month, int year) { // make sure we draw the month in the correct year no always 2022
+		initCells();
+		addDaysHeader();
+
+		prePadding();
+		addDays(month);
+		
+		addAllCells();
+	}
+	
+	private void initCells() {
+		for(int i = 0; i < 49; i++) {
 			calendarCells[i] = new JPanel(new FlowLayout());
 		}
+	}
+	
+	private void addDaysHeader() {
+		for(int i = 0; i < 7; i++) {
+			calendarCells[i].add(new JLabel(Days.values()[i].getFirst()));
+		}
+	}
+	
+	private void prePadding() {
+		for(int i = 7; i < startDay; i++) {
+			calendarCells[i].add(new JLabel(""));
+		}
+	}
+	
 
+	private void addDays(int month) {
 		int day = 0;
-		for (int i = startDay; i <= 42; i++) {
+		for (int i = 7 + startDay; i <= 49; i++) {
 			day++;
 			calendarCells[i - 1] = new JPanel(new FlowLayout());
 			calendarCells[i - 1].setBorder(BorderFactory.createLineBorder(Color.black));
@@ -67,18 +92,13 @@ public class Calendar extends JPanel {
 				break;
 			}
 		}
-		
-		for (int i = 0; i < 42; i++) {
-			add(calendarCells[i]);
-		}
-		
-		
-		
-		
-		
 	}
 	
-	
+	private void addAllCells() {
+		for (int i = 0; i < 49; i++) {
+			add(calendarCells[i]);
+		}
+	}
 	
 	// real redraw(month num, year): called when user clicks through arrows to change month
 	// show be parent to HostCalendar and AttendeeCalendar?

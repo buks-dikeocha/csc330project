@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 
 public class AvailabilityWindow extends Window {
 	private final JCheckBox[][] avs = new JCheckBox[24][7];
-	private final String days[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 	private final String hours[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
 	public JButton confirm, cancel;
 	private JPanel options = new JPanel();
 	private JPanel confirmPanel = new JPanel();
 	
 	public AvailabilityWindow(String title, int width, int height) {
-		super();
+		super();		
+		
 		options.setLayout(new GridLayout(8, 25));
 		confirmPanel.setLayout(new GridLayout(1, 2));
 		
@@ -35,7 +35,7 @@ public class AvailabilityWindow extends Window {
 		}
 		
 		for(int j = 0; j < 7; j++) {
-			options.add(new JLabel(days[j]));
+			options.add(new JLabel(Days.values()[j].getShorthand()));
 			
 			for(int i = 0; i < 24; i++){				
 				avs[i][j] = new JCheckBox("");
@@ -43,6 +43,8 @@ public class AvailabilityWindow extends Window {
 				options.add(avs[i][j]);
 			}
 		}
+		
+		
 		
 		add(options);
 		add(confirmPanel);

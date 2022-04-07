@@ -1,7 +1,9 @@
 package edu.cuny.csi.csc330.groupproject;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -33,10 +35,13 @@ public class Window extends JFrame{
 	}
 	
 	private void init(String title, int width, int height) {
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(layout);
 		setSize(width, height);
 		setTitle(title);
 		setVisible(true);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(dim.width/2 - getSize().width/2, dim.height/2 - getSize().height/2);
 	}
 }
