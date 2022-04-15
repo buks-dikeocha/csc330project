@@ -6,4 +6,13 @@ import java.time.LocalTime;
 public class Appointment {
 	private LocalDate date;
 	private LocalTime time;
+	private Attendee attendee;
+	
+	public Appointment(Attendee a) {
+		attendee = a;
+	}
+	
+	public String toString() {
+		return attendee.toString();
+	}
 }

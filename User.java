@@ -1,14 +1,34 @@
 package edu.cuny.csi.csc330.groupproject;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-public class User {
-	private String userID;
-	private String userName;
-	private String firstName;
-	private String lastName;
-	private List<Appointment> events;
-	private AccountType accType;
-	private LocalDateTime accCreated;
+public abstract class User {
+	protected String userID;
+	protected String userName;
+	protected String firstName;
+	protected String lastName;
+	protected List<Appointment> events;
+	public AccountType accType;
+	public LocalDateTime accCreated;
+	
+	public User(AccountType type, String userName, String firstName, String lastName) {
+		this.userID = "myid";
+		this.userName = userName;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		
+		this.events = new ArrayList<Appointment>();
+		this.accCreated = LocalDateTime.now();
+		this.accType = type;
+	}
+	
+	public void scheduler() {}
+	
+	public void descheduler() {}
+	
+	public String toString() {
+		return (accType.name() + " " + firstName + " " + lastName);
+	}
 }
