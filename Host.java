@@ -4,10 +4,11 @@ public class Host extends User {
 
 	public Host(String userName, String firstName, String lastName) {
 		super(AccountType.HOST, userName, firstName, lastName);
-		AppointmentDatabase.addHost(this.userID, this);
+		HostView hv = new HostView(this, "Host Login", 400, 300);
+		Database.addHost(this.userID, this);
 	}
 	
 	public void schudule() {
-		// call AppointmentDatabase schedule method
+		// call Database schedule method
 	}
 }

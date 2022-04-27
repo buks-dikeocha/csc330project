@@ -11,10 +11,9 @@ import javax.swing.SwingUtilities;
 public class HostView extends Window {
 	private int startDay;
 	private int month, year;
-//	private int showingMonth, showingYear; // if we need it
 	private JButton editAvailability;
-	
-	public HostView(String title, int width, int height) {
+	private Host host;
+	public HostView(Host h, String title, int width, int height) {
 		super(new FlowLayout());
 		
 		
@@ -32,28 +31,14 @@ public class HostView extends Window {
 		
 		add(cal);
 		
+		host = h;
+		
 		editAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AvailabilityWindow av = new AvailabilityWindow("Edit Availability", 800, 300);
+				AvailabilityWindow av = new AvailabilityWindow(host, "Edit Availability", 800, 350);
 			}
 		});
 		
 		display(title, width, height);
-
-		// bit of fun lol
-//		for(int i = 1; i <= 12; i++)
-//		{
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//			cal.removeAll();
-//			cal.redraw(i, 2022);
-//			
-//			SwingUtilities.updateComponentTreeUI(this);
-//		}
 	}
 }

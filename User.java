@@ -6,7 +6,6 @@ import java.util.List;
 
 public abstract class User {
 	protected String userID;
-	protected String userName;
 	protected String firstName;
 	protected String lastName;
 	protected List<Appointment> events;
@@ -14,8 +13,7 @@ public abstract class User {
 	public LocalDateTime accCreated;
 	
 	public User(AccountType type, String userName, String firstName, String lastName) {
-		this.userID = "myid";
-		this.userName = userName;
+		this.userID = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		

@@ -78,7 +78,7 @@ public class Calendar extends JPanel {
 		            for (Component c : ((Container) clicked).getComponents()) {
 		            	if(c instanceof JLabel) {
 		            		// on date click
-		            		System.out.println(((JLabel) c).getText());
+		            		System.out.println(((JLabel) c).getText()); // pop up, send date object
 		            	}
 		            }
 		          } 

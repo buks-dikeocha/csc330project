@@ -20,15 +20,16 @@ public class AttendeeView extends Window {
 	private JTextField searchbar;
 	private JPanel results;
 	private String hostSearch;
-	private FullCalendar cal;
+	private FullCalendar cal, resultsCal;
 	private List<JButton> times;
 	
 	private int eventConfirmed;
 	private EventConfirmation confirmation;
+	private Attendee attendee;
 	
 	private int month, year;
 	
-	public AttendeeView(String title, int width, int height) {
+	public AttendeeView(Attendee a, String title, int width, int height) {
 		super(new FlowLayout());
 		mainWindow = this;
 		
@@ -43,6 +44,7 @@ public class AttendeeView extends Window {
 		search = new JButton("Go");
 		searchbar = new JTextField(20);
 		cal = new FullCalendar(month, year);
+		resultsCal = new FullCalendar(month, year);
 		results = new JPanel(new GridLayout(12, 3));
 		
 		
@@ -52,41 +54,75 @@ public class AttendeeView extends Window {
 		
 		add(cal);
 		add(results);
+		
+		attendee = a;
+		
 
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				hostSearch = searchbar.getText();
-				System.out.println(hostSearch);
+				results.setVisible(false);
+				results.removeAll();
 				
 				// lookup host times from id
+//				try {
+//					results.removeAll();
+//					Host h = Database.getHostByID(hostSearch);
+//					ArrayList<ArrayList<Boolean>> hostAv = Database.availabilityByHostID.get(h.userID);
+//					
+//					
+//					System.out.println(h.userID);
+//					
+//					// -- somewhere below give null pointer exception
+//					// display host times
+//					// idea: use a calendar, when a day is clicked do a pop up wind that shows available times
+//					for(int i = 0; i < 24; i++) {
+//						for(int j = 0; j < 7; j++) {
+////							System.out.println(hostAv.get(i).get(j));
+//							if(hostAv.get(i).get(j)) {
+//								times.add(new JButton("" + Days.values()[j].getShorthand() + " " + i + ":00"));
+//								results.add(times.get(i));
+//								
+//								times.get(i).addActionListener(new ActionListener() {
+//									public void actionPerformed(ActionEvent e) {
+//										confirmation.setDetails(h.userID, "ddd", "ttt");
+//										eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
+//										
+//										if(eventConfirmed == 0) {
+//											System.out.println("yee boii");
+//											// schedule event
+//											// Database.schedule(, new Appointment(a1));
+//										}
+//									}
+//								});
+//							}
+//						}
+//					}
+//					
+//				} catch(Exception NullPointerException) {
+//					results.removeAll();
+//					results.add(new JLabel("No hosts by that id."));
+//					System.err.println("No host with that ID!");
+//					
+//				} finally {
+//					setToReultsView();
+//				}
 				
-				// display host times
-				// idea: use a calendar, when a day is clicked do a pop up wind that shows available times
-				for(int i = 0; i < 36; i++) {
-					times.add(new JButton("applesauce"));
-					results.add(times.get(i));
-					
-					times.get(i).addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							confirmation.setDetails("jjj", "ddd", "ttt");
-							eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
-							
-							if(eventConfirmed == 0) {
-								System.out.println("yee boii");
-								// schedule event
-							}
-						}
-					});
-				}
+				
+				results.add(resultsCal);
+				
+				
+				
+				
 				
 				setToReultsView();
-				results.add(new JLabel("No hosts by that id."));
 			}
 		});
 		
 		clear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setToCalendarView();
+				searchbar.setText("");
 			}
 		});
 		
