@@ -8,6 +8,8 @@ public class Appointment {
 	private LocalTime time;
 	private Attendee attendee;
 	
+	
+	
 	public Appointment(Attendee a) {
 		attendee = a;
 	}
