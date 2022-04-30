@@ -10,6 +10,7 @@ public class Appointment {
 	
 	
 	
+	
 	public Appointment(Attendee a) {
 		attendee = a;
 	}
