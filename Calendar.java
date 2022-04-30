@@ -17,6 +17,8 @@ public class Calendar extends JPanel {
 	private int startDay;
 	private LocalDate today;
 	
+	
+	
 	private final static int[] MONTH_SIZES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	
 	private JPanel calendarCells[] = new JPanel[49]; // 42 because the most rows a month can take up is 6, 7x6 is 42 boxes
