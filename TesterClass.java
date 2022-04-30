@@ -23,6 +23,12 @@ public class TesterClass {
 //		Attendee a3 = new Attendee("a3", "e", "f");
 		
 		
+		
+		
+		
+		
+		
+		
 //		Database.schedule("myid", new Appointment(a1));
 //		Database.printHostEvents("myid");
 		
