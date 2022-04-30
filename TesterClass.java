@@ -18,7 +18,7 @@ public class TesterClass {
 //		Host h3 = new Host("moon_man", "host", "host");
 //		Host h4 = new Host("nini", "host", "host");
 		
-		Attendee a1 = new Attendee("a1", "a", "b");
+//		Attendee a1 = new Attendee("a1", "a", "b");
 //		Attendee a2 = new Attendee("a2", "c", "d");
 //		Attendee a3 = new Attendee("a3", "e", "f");
 		
