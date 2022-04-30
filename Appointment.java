@@ -16,6 +16,7 @@ public class Appointment {
 	
 	
 	
+	
 	public String toString() {
 		return attendee.toString();
 	}
