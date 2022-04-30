@@ -14,6 +14,8 @@ public class Appointment {
 		attendee = a;
 	}
 	
+	
+	
 	public String toString() {
 		return attendee.toString();
 	}
