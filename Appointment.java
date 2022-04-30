@@ -13,9 +13,7 @@ public class Appointment {
 	public Appointment(Attendee a) {
 		attendee = a;
 	}
-	
-	
-	
+	// github commit test
 	
 	public String toString() {
 		return attendee.toString();
