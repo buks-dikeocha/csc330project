@@ -43,8 +43,8 @@ public class Database {
 		ArrayList<Appointment> hostEvents = eventsByHostID.get(hostID);
 		
 		System.out.printf("%s ", hostID);
-		for(Appointment a : hostEvents) {
-			System.out.println(a);
+		for(Appointment event : hostEvents) {
+			System.out.println(event);
 		}
 	}
 	
