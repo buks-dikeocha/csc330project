@@ -1,10 +1,10 @@
 /*
  * project must have the following files to hold user and host info:
- * eventsByHostID.txt
- * hostsByID.txt
- * availabilityByHostID.txt
+ * eventsByHostID.txt (file type unclear)	- Jhon's task
+ * availabilityByHostID.txt (file type unclear)	- Buka's task
  * 
  * files above are specifically holds info for the host(s)
+ * 
  */
 
 package edu.cuny.csi.csc330.groupproject;
