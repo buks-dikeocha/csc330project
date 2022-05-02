@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
 
+@SuppressWarnings("serial")
 public class HostView extends Window {
 	private int startDay;
 	private int month, year;
@@ -35,7 +35,7 @@ public class HostView extends Window {
 		
 		editAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AvailabilityWindow av = new AvailabilityWindow(host, "Edit Availability", 800, 350);
+				new AvailabilityWindow(host, "Edit Availability", 800, 350);
 			}
 		});
 		

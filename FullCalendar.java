@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class FullCalendar extends JPanel {
 
 	private int currentMonth, currentYear;

@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class AttendeeView extends Window {
 	private Window mainWindow;
 	private JButton search, clear;	
@@ -21,7 +22,7 @@ public class AttendeeView extends Window {
 	private JPanel results;
 	private String hostSearch;
 	private FullCalendar cal, resultsCal;
-	private List<JButton> times;
+	private List<JButton> days;
 	
 	private int eventConfirmed;
 	private EventConfirmation confirmation;
@@ -37,7 +38,7 @@ public class AttendeeView extends Window {
 		year = today.getYear();
 		month = today.getMonthValue();
 		
-		times = new ArrayList<JButton>();
+		days = new ArrayList<JButton>();
 		confirmation = new EventConfirmation();
 		
 		clear = new JButton("X");
@@ -65,57 +66,50 @@ public class AttendeeView extends Window {
 				results.removeAll();
 				
 				// lookup host times from id
-//				try {
-//					results.removeAll();
-//					Host h = Database.getHostByID(hostSearch);
-//					ArrayList<ArrayList<Boolean>> hostAv = Database.availabilityByHostID.get(h.userID);
-//					
-//					
-//					System.out.println(h.userID);
-//					
-//					// -- somewhere below give null pointer exception
-//					// display host times
-//					// idea: use a calendar, when a day is clicked do a pop up wind that shows available times
-//					for(int i = 0; i < 24; i++) {
-//						for(int j = 0; j < 7; j++) {
-////							System.out.println(hostAv.get(i).get(j));
-//							if(hostAv.get(i).get(j)) {
-//								times.add(new JButton("" + Days.values()[j].getShorthand() + " " + i + ":00"));
-//								results.add(times.get(i));
-//								
-//								times.get(i).addActionListener(new ActionListener() {
-//									public void actionPerformed(ActionEvent e) {
-//										confirmation.setDetails(h.userID, "ddd", "ttt");
-//										eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
-//										
-//										if(eventConfirmed == 0) {
-//											System.out.println("yee boii");
-//											// schedule event
-//											// Database.schedule(, new Appointment(a1));
-//										}
-//									}
-//								});
-//							}
-//						}
-//					}
-//					
-//				} catch(Exception NullPointerException) {
-//					results.removeAll();
-//					results.add(new JLabel("No hosts by that id."));
-//					System.err.println("No host with that ID!");
-//					
-//				} finally {
-//					setToReultsView();
-//				}
-				
-				
-				results.add(resultsCal);
+				try {
+					results.removeAll();
+					Host h = Database.getHostByID(hostSearch);
+					ArrayList<Boolean> hostAv = Database.getAvailability(hostSearch);
+					
+					for(int i = 0; i < 7; i++) {
+						days.add(new JButton(Days.values()[i].toString()));
+						days.get(i).addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								confirmation.setDetails(h.userID, "ddd");
+								eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
+								
+								if(eventConfirmed == 0) {
+									System.out.println("yee boii");
+									// use jhons event file code to do
+								}
+							}
+						});
+						
+						if(hostAv.get(i)) {
+							results.add(days.get(i));
+						}
+					}
+					
+				} catch(Exception NullPointerException) {
+					results.removeAll();
+					results.add(new JLabel("No hosts by that id."));
+					System.err.println("No host with that ID!");
+					
+				} finally {
+					setToReultsView();
+				}
 				
 				
 				
 				
 				
-				setToReultsView();
+//				results.add(resultsCal);
+				
+				
+				
+				
+				
+//				setToReultsView();
 			}
 		});
 		

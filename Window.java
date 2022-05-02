@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class Window extends JFrame{
 	LayoutManager layout;
 	

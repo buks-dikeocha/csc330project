@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class Calendar extends JPanel {
 	private int startDay;
 	private LocalDate today;
