@@ -6,30 +6,13 @@ public class TesterClass {
 	public static void main(String[] args) throws IOException {
 		Database.start();
 		
+				
+//		Database.registerHost("gibble");
 		
-		
-		new Host("squish", "host", "host");
-//		Host h2 = new Host("turtle", "host", "host");
-//		Host h3 = new Host("guwop", "host", "host");
-//		Host h4 = new Host("nini", "host", "host");
-		
-		new Attendee("a1", "a", "b");
-//		Attendee a2 = new Attendee("a2", "c", "d");
-//		Attendee a3 = new Attendee("a3", "e", "f");
+		Database.launchHost("snuff");
+		Database.launchAttendee("a1");
 		
 		
 		
-		
-		
-		
-		
-		
-//		Database.schedule("myid", new Appointment(a1));
-//		Database.printHostEvents("myid");
-		
-		
-//		System.out.println(Database.availabilityByID.get("guwop"));
-//		Boolean[] p = {false, false, false, false, true, false, false};
-//		Database.setAvailability("gibble", p);
 	}
 }

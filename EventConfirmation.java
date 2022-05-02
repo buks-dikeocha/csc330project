@@ -11,10 +11,10 @@ public class EventConfirmation extends JPanel {
 	private JPanel details;
 	
 	public EventConfirmation() {
-		super(new GridLayout(3, 1));//String title, int width, int height
+		super(new GridLayout(2, 1));
 		
 		label = new JLabel("Reserve this day?");
-		details = new JPanel(new GridLayout(3, 1)); // host name, date, time
+		details = new JPanel(new GridLayout(3, 1));
 		
 		add(label);
 		add(details);
@@ -24,7 +24,6 @@ public class EventConfirmation extends JPanel {
 		details.removeAll();
 		
 		details.add(new JLabel("With: " + hostName));
-//		details.add(new JLabel("Time: " + time));
 		details.add(new JLabel("Date: " + date));
 	}
 }

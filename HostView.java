@@ -9,33 +9,28 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class HostView extends Window {
-	private int startDay;
 	private int month, year;
 	private JButton editAvailability;
 	private Host host;
 	public HostView(Host h, String title, int width, int height) {
 		super(new FlowLayout());
 		
-		
 		LocalDate today = LocalDate.now();
 		year = today.getYear();
 		month = today.getMonthValue();
 		
-		startDay = LocalDate.of(year, month, 1).getDayOfWeek().getValue();
-		
+		host = h;
 		
 		editAvailability = new JButton("Edit My Availability");
-		FullCalendar cal = new FullCalendar(month, year);
+		FullCalendar cal = new FullCalendar(month, year, false, host.userID);
 		
 		add(editAvailability);
 		
 		add(cal);
 		
-		host = h;
-		
 		editAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AvailabilityWindow(host, "Edit Availability", 800, 350);
+				new AvailabilityWindow(host, "Edit Availability", 300, 340);
 			}
 		});
 		

@@ -1,2 +1,7 @@
-nini, true, false, true, true, false, false, false
-squish, true, true, true, true, true, true, true
+snuff,false,false,false,true,true,false,true
+gibble,false,false,false,false,false,false,false
+turtle,false,false,false,false,false,false,false
+nini,false,false,false,false,false,false,false
+guwop,false,false,false,false,false,false,false
+squish,false,false,true,true,true,true,true
+dink,false,false,true,false,false,false,false

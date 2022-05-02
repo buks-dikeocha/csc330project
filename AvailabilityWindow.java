@@ -9,13 +9,13 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class AvailabilityWindow extends Window {
 	private final JCheckBox[] avs = new JCheckBox[7];
-//	private final String hours[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
 	public JButton confirm, cancel;
 	private JPanel options = new JPanel();
 	private Host host;
@@ -27,15 +27,22 @@ public class AvailabilityWindow extends Window {
 		host = h;
 		me = this;
 		
-		options.setLayout(new GridLayout(8, 1));
+		options.setLayout(new GridLayout(10, 1));
 		
 		confirm = new JButton("Back");
 		
+		
+		// pad the top
+		options.add(new JLabel(""));
+		
+		ArrayList<Boolean> currentAv = Database.getAvailability(host.userID);
 		for(int j = 0; j < 7; j++){				
 			avs[j] = new JCheckBox(Days.values()[j].toString());
+			avs[j].setSelected(currentAv.get(j));
 			options.add(avs[j]);
 		}
 		
+		options.add(new JLabel(""));
 		options.add(confirm);
 		
 		confirm.addActionListener(new ActionListener() {

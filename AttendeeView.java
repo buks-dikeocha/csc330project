@@ -38,14 +38,16 @@ public class AttendeeView extends Window {
 		year = today.getYear();
 		month = today.getMonthValue();
 		
+		attendee = a;
+		
 		days = new ArrayList<JButton>();
 		confirmation = new EventConfirmation();
 		
 		clear = new JButton("X");
 		search = new JButton("Go");
 		searchbar = new JTextField(20);
-		cal = new FullCalendar(month, year);
-		resultsCal = new FullCalendar(month, year);
+		cal = new FullCalendar(month, year, false, attendee.userID);
+		
 		results = new JPanel(new GridLayout(12, 3));
 		
 		
@@ -56,8 +58,6 @@ public class AttendeeView extends Window {
 		add(cal);
 		add(results);
 		
-		attendee = a;
-		
 
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -66,50 +66,38 @@ public class AttendeeView extends Window {
 				results.removeAll();
 				
 				// lookup host times from id
-				try {
-					results.removeAll();
-					Host h = Database.getHostByID(hostSearch);
-					ArrayList<Boolean> hostAv = Database.getAvailability(hostSearch);
+				ArrayList<Boolean> hostAv = Database.getAvailability(hostSearch);
+				if(hostAv != null) {
 					
-					for(int i = 0; i < 7; i++) {
-						days.add(new JButton(Days.values()[i].toString()));
-						days.get(i).addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								confirmation.setDetails(h.userID, "ddd");
-								eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
-								
-								if(eventConfirmed == 0) {
-									System.out.println("yee boii");
-									// use jhons event file code to do
-								}
-							}
-						});
-						
-						if(hostAv.get(i)) {
-							results.add(days.get(i));
-						}
-					}
+					resultsCal = new FullCalendar(month, year, true, hostSearch);
+					results.add(resultsCal);
 					
-				} catch(Exception NullPointerException) {
-					results.removeAll();
+//					for(int i = 0; i < 7; i++) {
+//						days.add(new JButton(Days.values()[i].toString()));
+//						days.get(i).addActionListener(new ActionListener() {
+//							public void actionPerformed(ActionEvent e) {
+//								confirmation.setDetails(hostSearch, "ddd");
+//								eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
+//								
+//								if(eventConfirmed == 0) {
+//									System.out.println("yee boii");
+//									// use jhons event file code to do
+//								}
+//							}
+//						});
+//						
+//						if(hostAv.get(i)) {
+//							results.add(days.get(i));
+//						}
+//					}
+					
+				}
+				else {
 					results.add(new JLabel("No hosts by that id."));
 					System.err.println("No host with that ID!");
-					
-				} finally {
-					setToReultsView();
 				}
 				
-				
-				
-				
-				
-//				results.add(resultsCal);
-				
-				
-				
-				
-				
-//				setToReultsView();
+				setToReultsView();
 			}
 		});
 		
