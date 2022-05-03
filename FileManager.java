@@ -1,35 +1,17 @@
-/*
- * project must have the following files to hold user and host info:
- * eventsByHostID.txt (file type unclear)	- Jhon's task
- * availabilityByHostID.txt (file type unclear)	- Buka's task
- * 
- * files above are specifically holds info for the host(s)
- * 
- */
-
 package edu.cuny.csi.csc330.groupproject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FileManager {
-	ArrayList<String> host = new ArrayList<String>();
-	ArrayList<String> attendee = new ArrayList<String>();
-	
-	//private boolean fileFound;
-	
-	public FileManager() {
-	}
 	
 	private void createFile(String fileName) {
 		try {
@@ -40,63 +22,94 @@ public class FileManager {
 		        System.out.println("File already exists.");
 		      }
 		    } catch (IOException e) {
-		      System.out.println("An error occurred.");
+		      System.out.println("An error has occurred.");
 		      e.printStackTrace();
 		    }
 	}
 	
-	private void storeFiles(Map<String, Host> hostsByID, 
-			Map<String, ArrayList<Appointment>> eventsByHostID) {
+	//write Hosts into file
+	public static void writeHosts(ArrayList<Host> obj, File file) throws IOException{
+        try {
+        		FileOutputStream f = new FileOutputStream(new File("myObjects.txt"));
+    			ObjectOutputStream o = new ObjectOutputStream(f);
+
+    			// Write objects to file
+    			for(Host host : obj) {
+    				o.writeObject(host);
+    			}
+
+    			o.close();
+    			f.close();
+        } catch (FileNotFoundException e) {
+			System.out.println("File not found");
+        }
+    }
+	
+	// write Host's events into file
+	public static void writeEvents() {
 		
-		try {
-		      FileWriter myWriter = new FileWriter("filename.txt");
-		      myWriter.write("Pooh\n");
-		      myWriter.write("Reee\n");
-		      myWriter.close();
-		      System.out.println("Successfully wrote to the file.");
-		    } catch (IOException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
-		    }
 	}
 	
-	private void storeInfo(String fileName, Map<String, Host> hostsByID) {
-		try {
-			FileWriter myWriter = new FileWriter(fileName+".txt");
-		    for (Map.Entry<String, Host> set : hostsByID.entrySet()) {
-		    	System.out.println(set.getKey() + " = " + set.getValue());
-		    }
-			
-		} catch (IOException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
+	public static ArrayList<Host> readObjectFromFile(File file) throws IOException, ClassNotFoundException {
+		ArrayList<Host> hostsList = new ArrayList<Host>();
+		Host obj = null;
+		boolean nextLine = true;
+		
+        try {
+        	FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+
+			// Read objects
+			while(nextLine){
+		        if(fi.available() != 0){
+		         obj = (Host) oi.readObject();    
+		         hostsList.add(obj);
+		        }
+		        else{
+		        nextLine =false;
+		        }
+			}
+        } catch(FileNotFoundException e) {
+        	
+        }
+		return hostsList;
+    }
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException{
+		// testing testing...
+		
+		Host h1 = new Host("hippie", "f", "l");
+		Host h2 = new Host("squish", "host", "host");
+		Attendee a1 = new Attendee("a1", "firstN", "lastN");
+		Attendee a2 = new Attendee("a2", "a", "b");
+		Appointment day = new Appointment(a1);
+		Appointment day2 = new Appointment(a2);
+		
+		ArrayList<Host> listTest = new ArrayList<Host>();
+		listTest.add(h1);
+		listTest.add(h2);
+		
+		Database.addHost(h1.getUserID(), h1);
+		Database.addHost(h2.getUserID(), h2);
+		Database.schedule(h1.getUserID(), day);
+		Database.schedule(h2.getUserID(), day2);
+		Database.schedule(h1.getUserID(), day2);
+		
+		System.out.println(h1);
+		System.out.println(h2);
+		System.out.println(Database.getEvents(h1.getUserID()));
+		
+		for(Map.Entry<String, ArrayList<Appointment>> events : Database.eventsByHostID.entrySet()) {
+			System.out.println("Key = " + events.getKey() + ", Value = " + events.getValue());
 		}
+		System.out.println("__________________________________________________________");
+		
+		writeHosts(listTest, null);
+		ArrayList<Host> test = readObjectFromFile(null);
+		
+		for(Host host : test) {
+			System.out.println(host);
+		}
+		
 	}
-	
-	
-	
-	private void readFile() {
-		try {
-		      File myObj = new File("filename.txt");
-		      Scanner myReader = new Scanner(myObj);
-		      while (myReader.hasNextLine()) {
-		        String data = myReader.nextLine();
-		        System.out.println(data);
-		      }
-		      myReader.close();
-		    } catch (FileNotFoundException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
-		    }
-	}
-	
-	public static void main(String[] args) {
-		System.out.println("Yes");
-		FileManager tester = new FileManager();
-		tester.createFile("eventsByHostID");
-		tester.createFile("hostsByID");
-		tester.createFile("availabilityByHostID");
-
-	}
-
 }
