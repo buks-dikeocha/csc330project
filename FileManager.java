@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileManager {
+public class TestFileManager {
 	
 	private void createFile(String fileName) {
 		try {
@@ -27,7 +27,6 @@ public class FileManager {
 		    }
 	}
 	
-	//write Hosts into file
 	public static void writeHosts(ArrayList<Host> obj, File file) throws IOException{
         try {
         		FileOutputStream f = new FileOutputStream(new File("myObjects.txt"));
@@ -44,9 +43,8 @@ public class FileManager {
 			System.out.println("File not found");
         }
     }
-	
-	// write Host's events into file
-	public static void writeEvents() {
+	// work on ASAP
+	public static void writeEvents(ArrayList<Appointment> appList, File file) {
 		
 	}
 	
@@ -76,7 +74,6 @@ public class FileManager {
     }
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
-		// testing testing...
 		
 		Host h1 = new Host("hippie", "f", "l");
 		Host h2 = new Host("squish", "host", "host");
@@ -86,6 +83,8 @@ public class FileManager {
 		Appointment day2 = new Appointment(a2);
 		
 		ArrayList<Host> listTest = new ArrayList<Host>();
+		ArrayList<Appointment> appList = new ArrayList<Appointment>();
+		appList = Database.getEvents(h1.getUserID());
 		listTest.add(h1);
 		listTest.add(h2);
 		
@@ -105,6 +104,7 @@ public class FileManager {
 		System.out.println("__________________________________________________________");
 		
 		writeHosts(listTest, null);
+		writeEvents(appList, null);
 		ArrayList<Host> test = readObjectFromFile(null);
 		
 		for(Host host : test) {
