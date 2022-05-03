@@ -35,6 +35,6 @@ public abstract class User {
 	}
 	
 	public String toString() {
-		return (accType + " " + userID + " " + userName + " " + firstName + " " + lastName);
+		return (accType + " " + userName + " " + firstName + " " + lastName);
 	}
 }
