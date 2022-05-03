@@ -9,10 +9,12 @@ public class TesterClass {
 				
 //		Database.registerHost("gibble");
 		
-		Database.launchHost("snuff");
-		Database.launchAttendee("a1");
 		
 		
+		
+		System.out.println(Database.hostsByID);
+		
+		SignIn a = new SignIn();
 		
 	}
 }

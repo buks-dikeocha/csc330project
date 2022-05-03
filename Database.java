@@ -20,8 +20,8 @@ public class Database {
 	public static Map<String, Attendee> attendeesByID = new HashMap<String, Attendee>();
 	
 	// use properties for this
-	private static String databasePathAvail = "C:\\Users\\chewb\\eclipse-workspace\\CSC330\\edu\\cuny\\csi\\csc330\\groupproject\\availByID.csv";
-	private static String databasePathUsers = "C:\\Users\\chewb\\eclipse-workspace\\CSC330\\edu\\cuny\\csi\\csc330\\groupproject\\users.csv";
+	private static String databasePathAvail = "C:\\Users\\chukwuebuka.dikeocha\\eclipse-workspace\\workspace\\src\\edu\\cuny\\csi\\csc330\\groupproject\\availByID.csv";
+	private static String databasePathUsers = "C:\\Users\\chukwuebuka.dikeocha\\eclipse-workspace\\workspace\\src\\edu\\cuny\\csi\\csc330\\groupproject\\users.csv";
 	
 	private Database() {}
 	
