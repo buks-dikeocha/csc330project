@@ -26,6 +26,14 @@ public abstract class User {
 	
 	public void descheduler() {}
 	
+	public String getUserID() {
+		return userID;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+	
 	public String toString() {
 		return (accType + " " + userID + " " + userName + " " + firstName + " " + lastName);
 	}
