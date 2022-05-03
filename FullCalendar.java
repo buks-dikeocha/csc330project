@@ -1,6 +1,5 @@
 package edu.cuny.csi.csc330.groupproject;
 
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -23,12 +22,30 @@ public class FullCalendar extends JPanel {
 	private String calendarOf;
 	
 	public FullCalendar(int month, int year, boolean reservesEvent, String hostID) {
+		init(month, year, reservesEvent, hostID);
+	}
+	
+	private void init(int month, int year, boolean reservesEvent, String hostID) {
 		setLayout(new GridLayout(2, 1));
+		
 		currentMonth = month;
 		currentYear = year;
 		calReservesEvent = reservesEvent;
 		calendarOf = hostID;
 		
+		initVars(reservesEvent);
+		
+		setTitle(currentMonth, currentYear);
+		addButtonListeners();
+		addCalendarHeader();
+		addCalendar();
+		
+		calendarPanel.add(calendar);
+		add(calendarInfoGrid);
+		add(calendarGridRow);
+	}
+	
+	private void initVars(boolean reservesEvent) {
 		header = new JLabel();
 		previousMonth = new JButton("<");
 		nextMonth = new JButton(">");
@@ -39,7 +56,14 @@ public class FullCalendar extends JPanel {
 		
 		calendarInfoGrid.setLayout(new GridBagLayout());
 		calendarGridRow.setLayout(new GridBagLayout());
-		
+	}
+	
+	private void setTitle(int month, int year) {
+		header.setText(LocalDate.of(year, month, 1).getMonth() + " " + currentYear);
+		header.setHorizontalAlignment(JLabel.CENTER);
+	}
+	
+	private void addButtonListeners() {
 		previousMonth.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				displayPreviousMonth();
@@ -51,21 +75,18 @@ public class FullCalendar extends JPanel {
 				displayNextMonth();
 			}
 		});
-		
-		header.setText(LocalDate.of(year, month, 1).getMonth() + " " + currentYear);
-		header.setHorizontalAlignment(JLabel.CENTER);
-		
+	}
+	
+	private void addCalendarHeader() {
 		calendarInfoGrid.add(previousMonth);
 		calendarInfoGrid.add(header);
 		calendarInfoGrid.add(nextMonth);
-		
+	}
+	
+	private void addCalendar() {
 		calendarGridRow.add(new JLabel(""));
 		calendarGridRow.add(calendarPanel);
 		calendarGridRow.add(new JLabel(""));
-		calendarPanel.add(calendar);
-		
-		add(calendarInfoGrid);
-		add(calendarGridRow);
 	}
 	
 	private void displayPreviousMonth() {

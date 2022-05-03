@@ -6,95 +6,64 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class AttendeeView extends Window {
-	private Window mainWindow;
 	private JButton search, clear;	
 	private JTextField searchbar;
 	private JPanel results;
 	private String hostSearch;
 	private FullCalendar cal, resultsCal;
-	private List<JButton> days;
-	
-	private int eventConfirmed;
-	private EventConfirmation confirmation;
 	private Attendee attendee;
 	
 	private int month, year;
 	
-	public AttendeeView(Attendee a, String title, int width, int height) {
+	public AttendeeView(Attendee user, String title, int width, int height) {
 		super(new FlowLayout());
-		mainWindow = this;
-		
+		init(user, title, width, height);
+	}
+	
+	private void init(Attendee user, String title, int width, int height) {
 		LocalDate today = LocalDate.now();
 		year = today.getYear();
 		month = today.getMonthValue();
 		
-		attendee = a;
+		attendee = user;
 		
-		days = new ArrayList<JButton>();
-		confirmation = new EventConfirmation();
-		
+		initVars();
+		addSearchButtonsListeners();
+		displayAllComponents();
+		displaySelf(title, width, height);
+	}
+	
+	private void initVars() {
 		clear = new JButton("X");
 		search = new JButton("Go");
 		searchbar = new JTextField(20);
 		cal = new FullCalendar(month, year, false, attendee.userID);
 		
 		results = new JPanel(new GridLayout(12, 3));
-		
-		
-		add(clear);
-		add(searchbar);
-		add(search);
-		
-		add(cal);
-		add(results);
-		
+	}
 
+	private void addSearchButtonsListeners() {
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				hostSearch = searchbar.getText();
 				results.setVisible(false);
 				results.removeAll();
 				
-				// lookup host times from id
 				ArrayList<Boolean> hostAv = Database.getAvailability(hostSearch);
 				if(hostAv != null) {
-					
 					resultsCal = new FullCalendar(month, year, true, hostSearch);
 					results.add(resultsCal);
-					
-//					for(int i = 0; i < 7; i++) {
-//						days.add(new JButton(Days.values()[i].toString()));
-//						days.get(i).addActionListener(new ActionListener() {
-//							public void actionPerformed(ActionEvent e) {
-//								confirmation.setDetails(hostSearch, "ddd");
-//								eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
-//								
-//								if(eventConfirmed == 0) {
-//									System.out.println("yee boii");
-//									// use jhons event file code to do
-//								}
-//							}
-//						});
-//						
-//						if(hostAv.get(i)) {
-//							results.add(days.get(i));
-//						}
-//					}
-					
 				}
 				else {
 					results.add(new JLabel("No hosts by that id."));
-					System.err.println("No host with that ID!");
 				}
 				
 				setToReultsView();
@@ -103,12 +72,19 @@ public class AttendeeView extends Window {
 		
 		clear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setToCalendarView();
 				searchbar.setText("");
+				setToCalendarView();
 			}
 		});
+	}
+	
+	private void displayAllComponents() {
+		add(clear);
+		add(searchbar);
+		add(search);
 		
-		display(title, width, height);
+		add(cal);
+		add(results);
 	}
 	
 	private void setToCalendarView() {
@@ -123,3 +99,26 @@ public class AttendeeView extends Window {
 		results.setVisible(true);
 	}
 }
+
+
+// old code for displaying just buttons
+
+
+//for(int i = 0; i < 7; i++) {
+//days.add(new JButton(Days.values()[i].toString()));
+//days.get(i).addActionListener(new ActionListener() {
+//	public void actionPerformed(ActionEvent e) {
+//		confirmation.setDetails(hostSearch, "ddd");
+//		eventConfirmed = JOptionPane.showConfirmDialog(mainWindow, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
+//		
+//		if(eventConfirmed == 0) {
+//			System.out.println("yee boii");
+//			// use jhons event file code to do
+//		}
+//	}
+//});
+//
+//if(hostAv.get(i)) {
+//	results.add(days.get(i));
+//}
+//}

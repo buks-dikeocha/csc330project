@@ -12,28 +12,41 @@ public class HostView extends Window {
 	private int month, year;
 	private JButton editAvailability;
 	private Host host;
+	private FullCalendar cal;
+	
 	public HostView(Host h, String title, int width, int height) {
 		super(new FlowLayout());
-		
+		init(h, title, width, height);
+	}
+	
+	private void init(Host h, String title, int width, int height) {
 		LocalDate today = LocalDate.now();
 		year = today.getYear();
 		month = today.getMonthValue();
 		
 		host = h;
 		
+		initVars();
+		displayAllComponents();
+		addEditButtonListener();
+		displaySelf(title, width, height);
+	}
+	
+	private void initVars() {
 		editAvailability = new JButton("Edit My Availability");
-		FullCalendar cal = new FullCalendar(month, year, false, host.userID);
-		
+		cal = new FullCalendar(month, year, false, host.userID);
+	}
+	
+	private void displayAllComponents() {
 		add(editAvailability);
-		
 		add(cal);
-		
+	}
+	
+	private void addEditButtonListener() {
 		editAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AvailabilityWindow(host, "Edit Availability", 300, 340);
 			}
 		});
-		
-		display(title, width, height);
 	}
 }

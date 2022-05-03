@@ -19,19 +19,19 @@ public class Window extends JFrame{
 		this.layout = layout;
 	}
 	
-	public void display() {
+	public void displaySelf() {
 		init("New Window", 300, 200);
 	}
 	
-	public void display(String title) {
+	public void displaySelf(String title) {
 		init(title, 300, 200);
 	}
 	
-	public void display(int width, int height) {
+	public void displaySelf(int width, int height) {
 		init("New Window", width, height);
 	}
 	
-	public void display(String title, int width, int height) {
+	public void displaySelf(String title, int width, int height) {
 		init(title, width, height);
 	}
 	

@@ -70,6 +70,6 @@ public class AvailabilityWindow extends Window {
 		
 		
 		add(options);
-		display(title, width, height);
+		displaySelf(title, width, height);
 	}
 }
