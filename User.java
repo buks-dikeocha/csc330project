@@ -31,10 +31,10 @@ public abstract class User {
 	}
 
 	public String getUserName() {
-		return userName;
+		return userID;
 	}
 	
 	public String toString() {
-		return (accType + " " + userName + " " + firstName + " " + lastName);
+		return (accType + " " + userID + " " + firstName + " " + lastName);
 	}
 }
