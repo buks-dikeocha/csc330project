@@ -6,39 +6,47 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
 
+@SuppressWarnings("serial")
 public class HostView extends Window {
-	private int startDay;
 	private int month, year;
 	private JButton editAvailability;
 	private Host host;
-	public HostView(Host h, String title, int width, int height) {
+	private FullCalendar cal;
+	
+	public HostView(Host h) {
 		super(new FlowLayout());
-		
-		
+		init(h);
+	}
+	
+	private void init(Host h) {
 		LocalDate today = LocalDate.now();
 		year = today.getYear();
 		month = today.getMonthValue();
 		
-		startDay = LocalDate.of(year, month, 1).getDayOfWeek().getValue();
-		
-		
-		editAvailability = new JButton("Edit My Availability");
-		FullCalendar cal = new FullCalendar(month, year);
-		
-		add(editAvailability);
-		
-		add(cal);
-		
 		host = h;
 		
+		initVars();
+		displayAllComponents();
+		addEditButtonListener();
+		displaySelf("Home", 400, 300);
+	}
+	
+	private void initVars() {
+		editAvailability = new JButton("Edit My Availability");
+		cal = new FullCalendar(month, year, false, host.userID);
+	}
+	
+	private void displayAllComponents() {
+		add(editAvailability);
+		add(cal);
+	}
+	
+	private void addEditButtonListener() {
 		editAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AvailabilityWindow av = new AvailabilityWindow(host, "Edit Availability", 800, 350);
+				new AvailabilityWindow(host);
 			}
 		});
-		
-		display(title, width, height);
 	}
 }
