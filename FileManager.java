@@ -1,17 +1,21 @@
 package edu.cuny.csi.csc330.groupproject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestFileManager {
+public class FileManager{
 	
 	private void createFile(String fileName) {
 		try {
@@ -27,53 +31,41 @@ public class TestFileManager {
 		    }
 	}
 	
-	public static void writeHosts(ArrayList<Host> obj, File file) throws IOException{
+	public static void pushDatabase(File file) throws IOException{
         try {
-        		FileOutputStream f = new FileOutputStream(new File("myObjects.txt"));
+        		FileOutputStream f = new FileOutputStream(new File("C:\\Users\\Jhon\\eclipse-workspace\\CSC330-SrcTree\\Tester.txt"));
     			ObjectOutputStream o = new ObjectOutputStream(f);
-
+    			
     			// Write objects to file
-    			for(Host host : obj) {
-    				o.writeObject(host);
-    			}
-
+    			o.writeObject(Database.get());
     			o.close();
     			f.close();
+    			System.out.println("All is well!");
+    			
         } catch (FileNotFoundException e) {
 			System.out.println("File not found");
         }
     }
-	// work on ASAP
-	public static void writeEvents(ArrayList<Appointment> appList, File file) {
-		
+	
+	public static void loadDatabase(File file) throws IOException, ClassNotFoundException {
+		 try {
+	        	FileInputStream fi = new FileInputStream(new File("C:\\Users\\Jhon\\eclipse-workspace\\CSC330-SrcTree\\Tester.txt"));
+				ObjectInputStream oi = new ObjectInputStream(fi);
+				Database.set((Database) oi.readObject());
+				System.out.println("You did it you bastard!");
+				
+				oi.close();
+				fi.close();
+				
+		 } catch(FileNotFoundException e) {
+	        	
+	        }
 	}
 	
-	public static ArrayList<Host> readObjectFromFile(File file) throws IOException, ClassNotFoundException {
-		ArrayList<Host> hostsList = new ArrayList<Host>();
-		Host obj = null;
-		boolean nextLine = true;
-		
-        try {
-        	FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
-			ObjectInputStream oi = new ObjectInputStream(fi);
-
-			// Read objects
-			while(nextLine){
-		        if(fi.available() != 0){
-		         obj = (Host) oi.readObject();    
-		         hostsList.add(obj);
-		        }
-		        else{
-		        nextLine =false;
-		        }
-			}
-        } catch(FileNotFoundException e) {
-        	
-        }
-		return hostsList;
-    }
+	//
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
+		// fileName = "C:\\Users\\Jhon\\eclipse-workspace\\CSC330-SrcTree";
 		
 		Host h1 = new Host("hippie", "f", "l");
 		Host h2 = new Host("squish", "host", "host");
@@ -83,33 +75,11 @@ public class TestFileManager {
 		Appointment day2 = new Appointment(a2);
 		
 		ArrayList<Host> listTest = new ArrayList<Host>();
-		ArrayList<Appointment> appList = new ArrayList<Appointment>();
-		appList = Database.getEvents(h1.getUserID());
 		listTest.add(h1);
 		listTest.add(h2);
 		
-		Database.addHost(h1.getUserID(), h1);
-		Database.addHost(h2.getUserID(), h2);
-		Database.schedule(h1.getUserID(), day);
-		Database.schedule(h2.getUserID(), day2);
-		Database.schedule(h1.getUserID(), day2);
-		
-		System.out.println(h1);
-		System.out.println(h2);
-		System.out.println(Database.getEvents(h1.getUserID()));
-		
-		for(Map.Entry<String, ArrayList<Appointment>> events : Database.eventsByHostID.entrySet()) {
-			System.out.println("Key = " + events.getKey() + ", Value = " + events.getValue());
-		}
-		System.out.println("__________________________________________________________");
-		
-		writeHosts(listTest, null);
-		writeEvents(appList, null);
-		ArrayList<Host> test = readObjectFromFile(null);
-		
-		for(Host host : test) {
-			System.out.println(host);
-		}
-		
+//		pushDatabase(null);
+//		loadDatabase(null);
+//		System.out.println(Database.hostsByID);
 	}
 }
