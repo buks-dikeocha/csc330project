@@ -1,10 +1,11 @@
 package edu.cuny.csi.csc330.groupproject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Database {
+public class Database implements Serializable{
 	public static Map<String, ArrayList<Appointment>> eventsByHostID
 		= new HashMap<String, ArrayList<Appointment>>();
 	public static Map<String, Host> hostsByID = new HashMap<String, Host>();
@@ -12,7 +13,12 @@ public class Database {
 	public static Map<String, ArrayList<ArrayList<Boolean>>> availabilityByHostID
 		= new HashMap<String, ArrayList<ArrayList<Boolean>>>();
 	
-	private Database() {}
+	public Database() {}
+	private static Database self = new Database();
+	
+	public static Database get() { return self; }
+	
+	public static Database set(Database temp) { return temp; }
 	
 	public static void addHost(String hostID, Host host) {
 		// if hostID is not in use
@@ -46,6 +52,16 @@ public class Database {
 		for(Appointment event : hostEvents) {
 			System.out.println(event);
 		}
+	}
+	
+	public static ArrayList<Appointment> getHostEvents(String hostID) {
+		ArrayList<Appointment> list = new ArrayList<Appointment>();
+		
+		for(Appointment event : eventsByHostID.get(hostID)) {
+			list.add(event);
+		}
+		
+		return list;
 	}
 	
 	public static Host getHostByID(String hostID) {
