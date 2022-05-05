@@ -1,6 +1,7 @@
 package edu.cuny.csi.csc330.groupproject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,6 +44,10 @@ public class Database implements Serializable {
 	
 	//
 	
+	public static void createFile(String fileName) {
+		
+	}
+	
 	public static void registerHost(String hostID) throws IOException {
 		// if hostID in use, throw DatabaseExeption error
 		hostsByID.put(hostID, new Host(hostID));
@@ -76,27 +81,33 @@ public class Database implements Serializable {
 		/**
 		 * read content of file of users and load it into the database
 		 */
+		File users = new File(databasePathUsers);
 		
-		BufferedReader file = new BufferedReader(new FileReader(databasePathUsers));
-		
-		String a = "";
-		while((a = file.readLine()) != null) {
-			String[] m = a.split(",");
-				
-			if("HOST".equalsIgnoreCase(m[0])) {
-				hostsByID.put(m[1], new Host(m[1]));
+		// if file exist, load data into hostsByID and attendeesByID
+		if(!users.createNewFile()) {	
+			BufferedReader file = new BufferedReader(new FileReader(databasePathUsers));
+			
+			String a = "";
+			// read each line, split String and store values 
+			while((a = file.readLine()) != null) {
+				String[] m = a.split(",");
+					
+				if("HOST".equalsIgnoreCase(m[0])) {
+					hostsByID.put(m[1], new Host(m[1]));
+				}
+				else if ("ATTENDEE".equalsIgnoreCase(m[0])) {
+					attendeesByID.put(m[1], new Attendee(m[1]));
+				}
+				else {
+					// make DatabaseException
+					System.err.println("Invalid user type in file");
+					System.exit(0);
+				} 
 			}
-			else if ("ATTENDEE".equalsIgnoreCase(m[0])) {
-				attendeesByID.put(m[1], new Attendee(m[1]));
-			}
-			else {
-				// make DatabaseException
-				System.err.println("Invalid user type in file");
-				System.exit(0);
-			}
+			file.close();
 		}
 		
-		file.close();
+		
 	}
 	
 	private static void loadAvailability() throws IOException {
@@ -104,60 +115,60 @@ public class Database implements Serializable {
 		/**
 		 * read content of file of host availability and load it into the database
 		 */
+		File users = new File(databasePathAvail);
 		
-		BufferedReader file = new BufferedReader(new FileReader(databasePathAvail));
 		
-		String a = "";
-		while((a = file.readLine()) != null) {
-			String[] m = a.split(",");
-
-			ArrayList<Boolean> b = new ArrayList<Boolean>();
+		if(!users.createNewFile()) {
 			
-			for(int i = 1; i < 8; i++) {
-				b.add(Boolean.parseBoolean(m[i]));
+			BufferedReader file = new BufferedReader(new FileReader(databasePathAvail));
+			String a = "";
+			while((a = file.readLine()) != null) {
+				String[] m = a.split(",");
+
+				ArrayList<Boolean> b = new ArrayList<Boolean>();
+				
+				for(int i = 1; i < 8; i++) {
+					b.add(Boolean.parseBoolean(m[i]));
+				}
+				
+				availabilityByID.put(m[0], b);
 			}
 			
-			availabilityByID.put(m[0], b);
+			file.close();
 		}
-		
-		file.close();
 	}
 	
 	private static void loadEvents() throws IOException {
-		
 		/**
 		 * read content of file of host events and load it into the database
 		 */
-		//eventsByID.get(m[0]).add(new Appointment(attendeesByID.get(m[1]), m[2]));
+		File users = new File(databasePathEvents);
 		
-		BufferedReader file = new BufferedReader(new FileReader(databasePathEvents));
-		
-		String a = "";
-		while((a = file.readLine()) != null) {
-			String[] m = a.split(",");
-			// m[0] = hostID ; m[1] = attendeeID ; m[2] = date
-			//System.out.println("m[0]: " + m[0] + ", m[1]: " + m[1] + ", m[2]: " + m[2]);
+		if(!users.createNewFile()) {
+			BufferedReader file = new BufferedReader(new FileReader(databasePathEvents));
 			
-			Appointment temp = new Appointment(attendeesByID.get(m[1]), m[2], m[0]);
-			ArrayList<Appointment> currentApps = new ArrayList<Appointment>();
-			currentApps.add(temp);
-			
-			//System.out.println(eventsByID.get(m[0]));
-			//checks if host is in eventsByID, 
-			//if true, add Appointment to said host, else add Host with Appointment
-			if(eventsByID.get(m[0]) != null) {
-				//System.out.println("adding..");
-				eventsByID.get(m[0]).add(temp);
+			String a = "";
+			while((a = file.readLine()) != null) {
+				String[] m = a.split(",");
+				//System.out.println("m[0]: " + m[0] + ", m[1]: " + m[1] + ", m[2]: " + m[2]);
+				
+				Appointment temp = new Appointment(attendeesByID.get(m[1]), m[2], m[0]);
+				ArrayList<Appointment> currentApps = new ArrayList<Appointment>();
+				currentApps.add(temp);
+				//checks if host is in eventsByID, 
+				//if true, add Appointment to existing Host, else add Appointment to new Host
+				if(eventsByID.get(m[0]) != null) {
+					//System.out.println("adding..");
+					eventsByID.get(m[0]).add(temp);
+				}
+				else {
+					eventsByID.put(m[0], currentApps);
+				}
+				
 			}
-			else {
-				eventsByID.put(m[0], currentApps);
-			}
-			//System.out.println(currentApps);
-			//eventsByID.put(m[0], currentApps);
-			
+			//System.out.println( "loadEvents: " + eventsByID);
+			file.close();
 		}
-		//System.out.println( "loadEvents: " + eventsByID);
-		file.close();
 	}
 
 	private static void pushAvailability() throws IOException {
@@ -218,7 +229,6 @@ public class Database implements Serializable {
 	private static void pushEvents() throws IOException{
 		Collection<ArrayList<Appointment>> values = eventsByID.values();
 		ArrayList<ArrayList<Appointment>> listVal = new ArrayList<ArrayList<Appointment>>(values);
-		System.out.println(listKeys);
 		System.out.println(listVal);
 
 		FileWriter file = null;
@@ -226,7 +236,7 @@ public class Database implements Serializable {
 			file = new FileWriter (databasePathEvents);
 			for(ArrayList<Appointment> day : listVal) {
 				for(Appointment write : day) {
-					file.append(write.getHostID() + "," + write.getUserID() + "," + write.getDate() + "\n");
+					file.append(write.toString() + "\n");
 				}
 			}
 			
