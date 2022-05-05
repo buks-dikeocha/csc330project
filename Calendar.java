@@ -140,7 +140,11 @@ public class Calendar extends JPanel {
 							eventConfirmed = JOptionPane.showConfirmDialog(self, confirmation, "Confirm", JOptionPane.YES_NO_OPTION);
 							
 							if(eventConfirmed == 0) {
-								Database.addEvent(thisDate);
+								try {
+									Database.addEvent(thisDate, calendarOf);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
 							}
 	            		}
 	            		else {
