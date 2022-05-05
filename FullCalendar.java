@@ -1,7 +1,7 @@
 package edu.cuny.csi.csc330.groupproject;
 
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -20,13 +20,16 @@ public class FullCalendar extends JPanel {
 	private JPanel calendarInfoGrid, calendarGridRow, calendarPanel;
 	private JButton previousMonth, nextMonth;
 	private String calendarOf;
+	private GridBagLayout layout;
+	private GridBagConstraints gbc;
 	
 	public FullCalendar(int month, int year, boolean reservesEvent, String hostID) {
 		init(month, year, reservesEvent, hostID);
 	}
 	
 	private void init(int month, int year, boolean reservesEvent, String hostID) {
-		setLayout(new GridLayout(2, 1));
+		layout = new GridBagLayout();
+		setLayout(layout);
 		
 		currentMonth = month;
 		currentYear = year;
@@ -40,9 +43,7 @@ public class FullCalendar extends JPanel {
 		addCalendarHeader();
 		addCalendar();
 		
-		calendarPanel.add(calendar);
-		add(calendarInfoGrid);
-		add(calendarGridRow);
+		displayAllComponents();
 	}
 	
 	private void initVars(boolean reservesEvent) {
@@ -53,6 +54,7 @@ public class FullCalendar extends JPanel {
 		calendarGridRow = new JPanel();
 		calendarPanel = new JPanel();
 		calendar = new Calendar(currentMonth, currentYear, reservesEvent, calendarOf);
+		gbc = new GridBagConstraints();
 		
 		calendarInfoGrid.setLayout(new GridBagLayout());
 		calendarGridRow.setLayout(new GridBagLayout());
@@ -75,6 +77,20 @@ public class FullCalendar extends JPanel {
 				displayNextMonth();
 			}
 		});
+	}
+	
+	private void displayAllComponents() {
+		calendarPanel.add(calendar);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		layout.setConstraints(calendarInfoGrid, gbc);
+		add(calendarInfoGrid);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		layout.setConstraints(calendarGridRow, gbc);
+		add(calendarGridRow);
 	}
 	
 	private void addCalendarHeader() {

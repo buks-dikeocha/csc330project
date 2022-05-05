@@ -1,6 +1,6 @@
 package edu.cuny.csi.csc330.groupproject;
 
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ public class HostView extends Window {
 	private FullCalendar cal;
 	
 	public HostView(Host h) {
-		super(new FlowLayout());
+		super(new GridLayout(1, 3));
 		init(h);
 	}
 	
@@ -29,7 +29,7 @@ public class HostView extends Window {
 		initVars();
 		displayAllComponents();
 		addEditButtonListener();
-		displaySelf("Home", 400, 300);
+		displaySelf("Home", 500, 300);
 	}
 	
 	private void initVars() {
