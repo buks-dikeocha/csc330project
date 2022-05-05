@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Database implements Serializable {
+	public static ArrayList<Appointment> events = new ArrayList<Appointment>();
 	public static Map<String, ArrayList<Appointment>> eventsByID
 		= new HashMap<String, ArrayList<Appointment>>();	
 	
@@ -199,7 +200,34 @@ public class Database implements Serializable {
 		}
 	}
 	
-	private static void pushEvents() throws IOException{}
+	private static void pushEvents() throws IOException{
+		Set<String> keySet = eventsByID.keySet();
+		ArrayList<String> listKeys = new ArrayList<String>(keySet);
+		Collection<ArrayList<Appointment>> values = eventsByID.values();
+		ArrayList<ArrayList<Appointment>> listVal = new ArrayList<ArrayList<Appointment>>(values);
+		System.out.println(listKeys);
+		System.out.println(listVal);
+
+		FileWriter file = null;
+		try {
+			file = new FileWriter (databasePathEvents);
+			for(ArrayList<Appointment> day : listVal) {
+				for(Appointment write : day) {
+					file.append(write.getHostID() + "," + write.getAttendee() + "," + write.getDate() + "\n");
+				}
+			}
+			
+			
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				file.flush();
+				file.close();
+			}
+			catch(Exception e) { e.printStackTrace(); }
+		}
+	}
 	
 	public static void setAvailability(String hostID, ArrayList<Boolean> newAv) throws IOException {
 		availabilityByID.put(hostID, newAv);	
@@ -219,6 +247,11 @@ public class Database implements Serializable {
 	public static void addEvent(LocalDate date) {
 		System.out.println(date);
 		// use jhons event file code to do
+		Appointment addApp = new Appointment(currentAtt, date);
+		//System.out.println(addApp);
+		events.add(addApp);
+		addApp.setHostID(hostID);
+		eventsByID.put(hostID, events);
 	}
 	
 	public static void start() throws IOException {
