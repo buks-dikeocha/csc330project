@@ -14,7 +14,16 @@ public class Appointment {
 	public Appointment(Attendee user, LocalDate appointmentDate) {
 		init(user, appointmentDate);
 	}
+	public Appointment(Attendee user, String appointmentDate, String hostID) {
+		init(user, appointmentDate, hostID);
+	}
 	
+	private void init(Attendee user, String appointmentDate, String hostID) {
+		attendee = user;
+		date = LocalDate.parse(appointmentDate, DateTimeFormatter.ISO_LOCAL_DATE);
+		this.hostID = hostID;
+		
+	}
 	private void init(Attendee user, String appointmentDate) {
 		attendee = user;
 		date = LocalDate.parse(appointmentDate, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -26,11 +35,16 @@ public class Appointment {
 		hostID = null;
 	}
 	
+	
 	public LocalDate getDate() {
 		return date;
 	}
 	
-	public String getAttendee() {
+	public Attendee getAttendee() {
+		return attendee;
+	}
+	
+	public String getUserID() {
 		return attendee.getUserID();
 	}
 	
@@ -43,6 +57,6 @@ public class Appointment {
 	}
 	
 	public String toString() {
-		return (attendee.getUserID() + "," + hostID + "," + date + ".");
+		return (attendee.getUserID() + "," + hostID + "," + date);
 	}
 }
