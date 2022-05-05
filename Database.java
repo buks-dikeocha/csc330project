@@ -1,12 +1,10 @@
 package edu.cuny.csi.csc330.groupproject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,25 +12,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Database implements Serializable {
-	public static ArrayList<Appointment> events = new ArrayList<Appointment>();
-	public static Map<String, ArrayList<Appointment>> eventsByID
-		= new HashMap<String, ArrayList<Appointment>>();	
+public class Database {
+	public static Map<String, Host> hostsByID;
+	public static Map<String, Attendee> attendeesByID;
+	public static Map<String, ArrayList<Boolean>> availabilityByID;
+	public static Map<String, ArrayList<Appointment>> eventsByID;	
+	private static String directory;
 	
-	// new working stuff
-	public static Map<String, ArrayList<Boolean>> availabilityByID
-		= new HashMap<String, ArrayList<Boolean>>();
-	public static Map<String, Host> hostsByID = new HashMap<String, Host>();
-	public static Map<String, Attendee> attendeesByID = new HashMap<String, Attendee>();
+	static {
+		directory = Paths.get("").toAbsolutePath().toString() + "\\edu\\cuny\\csi\\csc330\\groupproject";
+		
+		hostsByID = new HashMap<String, Host>();
+		attendeesByID = new HashMap<String, Attendee>();
+		availabilityByID = new HashMap<String, ArrayList<Boolean>>();
+		eventsByID = new HashMap<String, ArrayList<Appointment>>();
+	}
+	
 	
 	// use properties for this
-	private static String databasePathAvail = "availByID.csv";
-	private static String databasePathUsers = "users.csv";
-	private static String databasePathEvents = "events.csv";
+	private static String databasePathAvail = directory + "\\availByID.csv";
+	private static String databasePathUsers = directory + "\\users.csv";
+	private static String databasePathEvents = directory + "\\events.csv";
 	
 	//
-	private static Attendee currentAtt = null;
-	private static Host currentHost = null;
 	
 	private Database() {}
 	
@@ -44,22 +46,19 @@ public class Database implements Serializable {
 	
 	//
 	
-	public static void createFile(String fileName) {
-		
-	}
-	
 	public static void registerHost(String hostID) throws IOException {
 		// if hostID in use, throw DatabaseExeption error
 		hostsByID.put(hostID, new Host(hostID));
 		pushUser("HOST", hostID);
 		
+		
+		
 		eventsByID.put(hostID, new ArrayList<Appointment>());
-		// moved to addEvent()
-		//pushEvents();
+		pushEvents();
 		
 		
 		
-		// availability is set to unavailable by default
+		// availability is never by default
 		ArrayList<Boolean> hostAv = new ArrayList<Boolean>();
 		for(int i = 0; i < 7; i++) {
 			hostAv.add(false);
@@ -106,8 +105,6 @@ public class Database implements Serializable {
 			}
 			file.close();
 		}
-		
-		
 	}
 	
 	private static void loadAvailability() throws IOException {
@@ -116,7 +113,6 @@ public class Database implements Serializable {
 		 * read content of file of host availability and load it into the database
 		 */
 		File users = new File(databasePathAvail);
-		
 		
 		if(!users.createNewFile()) {
 			
@@ -139,8 +135,9 @@ public class Database implements Serializable {
 	}
 	
 	private static void loadEvents() throws IOException {
+		
 		/**
-		 * read content of file of host events and load it into the database
+		 * read content of file of host availability and load it into the database
 		 */
 		File users = new File(databasePathEvents);
 		
@@ -227,20 +224,17 @@ public class Database implements Serializable {
 	}
 	
 	private static void pushEvents() throws IOException{
-		Collection<ArrayList<Appointment>> values = eventsByID.values();
-		ArrayList<ArrayList<Appointment>> listVal = new ArrayList<ArrayList<Appointment>>(values);
-		System.out.println(listVal);
+		Set<String> keySet = eventsByID.keySet();
 
 		FileWriter file = null;
 		try {
 			file = new FileWriter (databasePathEvents);
-			for(ArrayList<Appointment> day : listVal) {
-				for(Appointment write : day) {
-					file.append(write.toString() + "\n");
+			
+			for(String hostID : keySet) {
+				for(Appointment app : eventsByID.get(hostID)) {
+					file.append(hostID + "," + app.getAttendee().userID + "," + app.getDate().toString() + "\n");
 				}
 			}
-			
-			
 		} catch(Exception e){
 			e.printStackTrace();
 		} finally {
@@ -250,10 +244,7 @@ public class Database implements Serializable {
 			}
 			catch(Exception e) { e.printStackTrace(); }
 		}
-		
 	}
-	
-	
 	
 	public static void setAvailability(String hostID, ArrayList<Boolean> newAv) throws IOException {
 		availabilityByID.put(hostID, newAv);	
@@ -270,14 +261,8 @@ public class Database implements Serializable {
 	}
 	
 	
-	public static void addEvent(LocalDate date, String hostID) throws IOException {
-		Appointment addApp = new Appointment(currentAtt, date);
-		//System.out.println(addApp);
-		events.add(addApp);
-		addApp.setHostID(hostID);
-		eventsByID.put(hostID, events);
-		
-		// not the most efficient but works
+	public static void addEvent(String hostID, String attendeeID, String date) throws IOException {
+		eventsByID.get(hostID).add(new Appointment(attendeesByID.get(attendeeID), date));
 		pushEvents();
 	}
 	
@@ -287,20 +272,13 @@ public class Database implements Serializable {
 		loadEvents();
 		
 		// loading events called here
-		
-		/*
-		 * System.out.println(hostsByID); System.out.println(attendeesByID);
-		 * System.out.println(availabilityByID); System.out.println(eventsByID);
-		 */
 	}
 	
 	public static void launchHost(String hostID) {
-		currentHost = hostsByID.get(hostID);
 		new HostView(hostsByID.get(hostID));
 	}
 	
 	public static void launchAttendee(String attendeeID) {
-		currentAtt = attendeesByID.get(attendeeID);
 		new AttendeeView(attendeesByID.get(attendeeID));
 	}
 }
