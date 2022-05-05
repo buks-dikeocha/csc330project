@@ -49,7 +49,8 @@ public class Database implements Serializable {
 		pushUser("HOST", hostID);
 		
 		eventsByID.put(hostID, new ArrayList<Appointment>());
-		pushEvents();
+		// moved to addEvent()
+		//pushEvents();
 		
 		
 		
@@ -127,24 +128,35 @@ public class Database implements Serializable {
 		/**
 		 * read content of file of host events and load it into the database
 		 */
+		//eventsByID.get(m[0]).add(new Appointment(attendeesByID.get(m[1]), m[2]));
 		
 		BufferedReader file = new BufferedReader(new FileReader(databasePathEvents));
 		
 		String a = "";
 		while((a = file.readLine()) != null) {
 			String[] m = a.split(",");
+			// m[0] = hostID ; m[1] = attendeeID ; m[2] = date
+			//System.out.println("m[0]: " + m[0] + ", m[1]: " + m[1] + ", m[2]: " + m[2]);
 			
-			ArrayList<Appointment> currentApps = eventsByID.get(m[0]);
-			if(currentApps != null) {
-				eventsByID.get(m[0]).add(new Appointment(attendeesByID.get(m[1]), m[2]));
+			Appointment temp = new Appointment(attendeesByID.get(m[1]), m[2], m[0]);
+			ArrayList<Appointment> currentApps = new ArrayList<Appointment>();
+			currentApps.add(temp);
+			
+			//System.out.println(eventsByID.get(m[0]));
+			//checks if host is in eventsByID, 
+			//if true, add Appointment to said host, else add Host with Appointment
+			if(eventsByID.get(m[0]) != null) {
+				//System.out.println("adding..");
+				eventsByID.get(m[0]).add(temp);
 			}
 			else {
-				ArrayList<Appointment> newApp = new ArrayList<Appointment>();
-				newApp.add(new Appointment(attendeesByID.get(m[1]), m[2]));
-				eventsByID.put(m[0], newApp);
+				eventsByID.put(m[0], currentApps);
 			}
+			//System.out.println(currentApps);
+			//eventsByID.put(m[0], currentApps);
+			
 		}
-		
+		//System.out.println( "loadEvents: " + eventsByID);
 		file.close();
 	}
 
@@ -204,8 +216,6 @@ public class Database implements Serializable {
 	}
 	
 	private static void pushEvents() throws IOException{
-		Set<String> keySet = eventsByID.keySet();
-		ArrayList<String> listKeys = new ArrayList<String>(keySet);
 		Collection<ArrayList<Appointment>> values = eventsByID.values();
 		ArrayList<ArrayList<Appointment>> listVal = new ArrayList<ArrayList<Appointment>>(values);
 		System.out.println(listKeys);
@@ -216,7 +226,7 @@ public class Database implements Serializable {
 			file = new FileWriter (databasePathEvents);
 			for(ArrayList<Appointment> day : listVal) {
 				for(Appointment write : day) {
-					file.append(write.getHostID() + "," + write.getAttendee() + "," + write.getDate() + "\n");
+					file.append(write.getHostID() + "," + write.getUserID() + "," + write.getDate() + "\n");
 				}
 			}
 			
@@ -256,6 +266,9 @@ public class Database implements Serializable {
 		events.add(addApp);
 		addApp.setHostID(hostID);
 		eventsByID.put(hostID, events);
+		
+		// not the most efficient but works
+		pushEvents();
 	}
 	
 	public static void start() throws IOException {
