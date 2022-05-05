@@ -5,9 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +18,7 @@ public class Database {
 	private static String directory;
 	
 	static {
-		directory = Paths.get("").toAbsolutePath().toString() + "\\edu\\cuny\\csi\\csc330\\groupproject";
+		directory = Paths.get("").toAbsolutePath().toString() + "\\src\\edu\\cuny\\csi\\csc330\\groupproject";
 		
 		hostsByID = new HashMap<String, Host>();
 		attendeesByID = new HashMap<String, Attendee>();
@@ -29,10 +27,11 @@ public class Database {
 	}
 	
 	
-	// use properties for this
+	// use properties for this	
 	private static String databasePathAvail = directory + "\\availByID.csv";
 	private static String databasePathUsers = directory + "\\users.csv";
 	private static String databasePathEvents = directory + "\\events.csv";
+	
 	
 	//
 	

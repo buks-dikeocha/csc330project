@@ -1,3 +1,4 @@
+HOST,oop
 HOST,gibble
 HOST,nini
 HOST,turt
@@ -6,6 +7,8 @@ HOST,avacado
 HOST,melburt
 HOST,squish
 HOST,klobber
+HOST,hot
 HOST,kizzy
 ATTENDEE,a1
+ATTENDEE,att
 ATTENDEE,cliff
