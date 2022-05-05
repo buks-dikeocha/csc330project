@@ -4,4 +4,8 @@ public class Attendee extends User {
 	public Attendee(String userName) {
 		super(AccountType.ATTENDEE, userName);
 	}
+	
+	public String getUserID() {
+		return userID;
+	}
 }
