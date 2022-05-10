@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame{
-	LayoutManager layout;
+	private LayoutManager layout;
 	
 	public Window() {
 		this.layout = new FlowLayout();

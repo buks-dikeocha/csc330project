@@ -105,11 +105,11 @@ public class Calendar extends JPanel {
 	}
 	
 	private void highlightIfHasEvent(int cell, int month, int day, int year) {
-		if(Database.getHostByID(calendarOf) != null && !calReservesEvent) { // aka is this a host && not a searched calendar
+		if(Database.getHost(calendarOf) != null && !calReservesEvent) { // aka is this a host && not a searched calendar
 			ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
 			
 			// add all dates in host event database to this array
-			for(Appointment app : Database.eventsByID.get(calendarOf)) {
+			for(Appointment app : Database.getEventsByID().get(calendarOf)) {
 				dates.add(app.getDate());
 			}
 			

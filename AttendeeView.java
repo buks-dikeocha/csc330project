@@ -45,7 +45,7 @@ public class AttendeeView extends Window {
 		clear = new JButton("X");
 		search = new JButton("Go");
 		searchbar = new JTextField(20);
-		cal = new FullCalendar(month, year, false, attendee.userID);
+		cal = new FullCalendar(month, year, false, attendee.getUserID());
 		
 		results = new JPanel(new GridLayout(12, 3));
 	}
@@ -59,7 +59,7 @@ public class AttendeeView extends Window {
 				
 				ArrayList<Boolean> hostAv = Database.getAvailability(hostSearch);
 				if(hostAv != null) {
-					resultsCal = new FullCalendar(month, year, true, hostSearch, attendee.userID);
+					resultsCal = new FullCalendar(month, year, true, hostSearch, attendee.getUserID());
 					results.add(resultsCal);
 				}
 				else {

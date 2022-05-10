@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class SignInView extends Window{
-	SignInView me;
+	private SignInView me;
 	private JButton hostButton, attendeeButton, newUserButton;
 	private JTextField userLogin;
 	private JLabel loginLabel;

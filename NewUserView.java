@@ -60,11 +60,11 @@ public class NewUserView extends Window{
 	
 	private void makeUser(AccountType acc) {
 		try {
-			if(acc == AccountType.HOST && !Database.hostsByID.containsKey(idInput.getText())) {
+			if(acc == AccountType.HOST && !Database.getHostsByID().containsKey(idInput.getText())) {
 				Database.registerHost(idInput.getText());
 
 			}
-			else if(acc == AccountType.ATTENDEE && !Database.attendeesByID.containsKey(idInput.getText())) {
+			else if(acc == AccountType.ATTENDEE && !Database.getAttendeesByID().containsKey(idInput.getText())) {
 				Database.registerAttendee(idInput.getText());
 			}
 			

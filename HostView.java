@@ -34,7 +34,7 @@ public class HostView extends Window {
 	
 	private void initVars() {
 		editAvailability = new JButton("Edit My Availability");
-		cal = new FullCalendar(month, year, false, host.userID);
+		cal = new FullCalendar(month, year, false, host.getUserID());
 	}
 	
 	private void displayAllComponents() {

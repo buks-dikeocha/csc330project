@@ -5,22 +5,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class Database {
-	public static Map<String, Host> hostsByID;
-	public static Map<String, Attendee> attendeesByID;
-	public static Map<String, ArrayList<Boolean>> availabilityByID;
-	public static Map<String, ArrayList<Appointment>> eventsByID;	
+	private static Map<String, Host> hostsByID;
+	private static Map<String, Attendee> attendeesByID;
+	private static Map<String, ArrayList<Boolean>> availabilityByID;
+	private static Map<String, ArrayList<Appointment>> eventsByID;	
 	private static String directory;
 	
 	static {
-		directory = Paths.get("").toAbsolutePath().toString() + "\\edu\\cuny\\csi\\csc330\\groupproject";
+		directory = Paths.get("").toAbsolutePath().toString() + "\\src\\edu\\cuny\\csi\\csc330\\groupproject";
 		
 		hostsByID = new HashMap<String, Host>();
 		attendeesByID = new HashMap<String, Attendee>();
@@ -28,35 +26,19 @@ public class Database {
 		eventsByID = new HashMap<String, ArrayList<Appointment>>();
 	}
 	
-	
-	// use properties for this
 	private static String databasePathAvail = directory + "\\availByID.csv";
 	private static String databasePathUsers = directory + "\\users.csv";
 	private static String databasePathEvents = directory + "\\events.csv";
 	
-	//
-	
 	private Database() {}
-	
-	private static Database self = new Database();
-	
-	public static Database get() { return self; }
-	
-	public static Database set(Database temp) { return temp; }
-	
-	//
 	
 	public static void registerHost(String hostID) throws IOException {
 		// if hostID in use, throw DatabaseExeption error
 		hostsByID.put(hostID, new Host(hostID));
 		pushUser("HOST", hostID);
 		
-		
-		
 		eventsByID.put(hostID, new ArrayList<Appointment>());
 		pushEvents();
-		
-		
 		
 		// availability is never by default
 		ArrayList<Boolean> hostAv = new ArrayList<Boolean>();
@@ -71,7 +53,7 @@ public class Database {
 		pushUser("ATTENDEE", attendeeID);
 	}
 	
-	public static Host getHostByID(String hostID) {
+	public static Host getHost(String hostID) { // single host
 		return hostsByID.get(hostID);
 	}
 	
@@ -219,7 +201,7 @@ public class Database {
 			
 			for(String hostID : keySet) {
 				for(Appointment app : eventsByID.get(hostID)) {
-					file.append(hostID + "," + app.getAttendee().userID + "," + app.getDate().toString() + "\n");
+					file.append(hostID + "," + app.getAttendee().getUserID() + "," + app.getDate().toString() + "\n");
 				}
 			}
 		} catch(Exception e){
@@ -257,8 +239,6 @@ public class Database {
 		loadUsers();
 		loadAvailability();
 		loadEvents();
-		
-		// loading events called here
 	}
 	
 	public static void launchHost(String hostID) {
@@ -267,5 +247,21 @@ public class Database {
 	
 	public static void launchAttendee(String attendeeID) {
 		new AttendeeView(attendeesByID.get(attendeeID));
+	}
+
+	public static Map<String, Host> getHostsByID() { // get all hosts
+		return hostsByID;
+	}
+
+	public static Map<String, Attendee> getAttendeesByID() {
+		return attendeesByID;
+	}
+
+	public static Map<String, ArrayList<Boolean>> getAvailabilityByID() {
+		return availabilityByID;
+	}
+
+	public static Map<String, ArrayList<Appointment>> getEventsByID() {
+		return eventsByID;
 	}
 }

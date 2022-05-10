@@ -12,12 +12,7 @@ public class EventConfirmation extends JPanel {
 	
 	public EventConfirmation() {
 		super(new GridLayout(2, 1));
-		
-		label = new JLabel("Reserve this day?");
-		details = new JPanel(new GridLayout(3, 1));
-		
-		add(label);
-		add(details);
+		init();
 	}
 	
 	public void setDetails(String hostName, String date) {
@@ -25,5 +20,20 @@ public class EventConfirmation extends JPanel {
 		
 		details.add(new JLabel("With: " + hostName));
 		details.add(new JLabel("Date: " + date));
+	}
+	
+	private void init() {
+		initVars();
+		displayAllComponents();
+	}
+	
+	private void initVars() {
+		label = new JLabel("Reserve this day?");
+		details = new JPanel(new GridLayout(3, 1));
+	}
+	
+	private void displayAllComponents() {
+		add(label);
+		add(details);
 	}
 }
