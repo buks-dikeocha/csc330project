@@ -16,6 +16,9 @@ public class NewUserView extends Window{
 	private JButton makeHost, makeAttendee, cancel;
 	private NewUserView me;
 	
+	/**
+	 * Opens a pop-up window which the user can register and specify if the account will be a host or attendee account.
+	 */
 	public NewUserView() {
 		init();
 	}

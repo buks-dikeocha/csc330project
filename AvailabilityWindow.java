@@ -21,6 +21,12 @@ public class AvailabilityWindow extends Window {
 	private Host host;
 	private AvailabilityWindow me;
 	
+	/**
+	 * Opens a window which the attendee can interact with the app.
+	 * Takes a Host object.
+	 * 
+	 * @param user
+	 */
 	public AvailabilityWindow(Host h) {
 		super();
 		init(h);

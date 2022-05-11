@@ -29,10 +29,33 @@ public class Calendar extends JPanel {
 	private final static int[] MONTH_SIZES = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private JPanel calendarCells[] = new JPanel[49]; // 42 because the most rows a month can take up is 6, 7x6 is 42 boxes, +7 for header
 	
+	/**
+	 * Creates a visual calendar component. Takes the month and year to display.
+	 * 
+	 * int month: 1 = January, 12 = December
+	 * boolean reservesEvent: If true will allow the user to schedule events.
+	 * 
+	 * @param month
+	 * @param year
+	 * @param reservesEvent
+	 * @param hostID
+	 */
 	public Calendar(int month, int year, boolean reservesEvent, String hostID) {
 		init(month, year, reservesEvent, hostID, null);
 	}
 	
+	/**
+	 * Creates a visual calendar component. Takes the month and year to display.
+	 * 
+	 * int month: 1 = January, 12 = December
+	 * boolean reservesEvent: If true will allow the user to schedule events.
+	 * 
+	 * @param month
+	 * @param year
+	 * @param reservesEvent
+	 * @param hostID
+	 * @param attID
+	 */
 	public Calendar(int month, int year, boolean reservesEvent, String hostID, String attID) {
 		init(month, year, reservesEvent, hostID, attID);
 	}

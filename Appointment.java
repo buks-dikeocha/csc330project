@@ -16,10 +16,22 @@ public class Appointment {
 		date = LocalDate.parse(appointmentDate, DateTimeFormatter.ISO_LOCAL_DATE);
 	}
 	
+	/**
+	 * Returns the date that this appointment is scheduled for.
+	 * Returns LocalDate
+	 * 
+	 * @return
+	 */
 	public LocalDate getDate() {
 		return date;
 	}
 	
+	/**
+	 * Returns the user that this appointment is scheduled with.
+	 * Returns Attendee
+	 * 
+	 * @return
+	 */
 	public Attendee getAttendee() {
 		return attendee;
 	}

@@ -10,11 +10,21 @@ public class EventConfirmation extends JPanel {
 	private JLabel label;
 	private JPanel details;
 	
+	/**
+	 * Creates a component that lists event details
+	 */
 	public EventConfirmation() {
 		super(new GridLayout(2, 1));
 		init();
 	}
 	
+	/**
+	 * Update details of component. Uses a string for host username and string for date.
+	 * Date format follows yyyy-mm-dd
+	 * 
+	 * @param hostName
+	 * @param date
+	 */
 	public void setDetails(String hostName, String date) {
 		details.removeAll();
 		

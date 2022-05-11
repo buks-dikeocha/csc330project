@@ -14,17 +14,23 @@ public class HostView extends Window {
 	private Host host;
 	private FullCalendar cal;
 	
-	public HostView(Host h) {
+	/**
+	 * Opens a window which the host can view past and upcoming events.
+	 * Takes an Host object.
+	 * 
+	 * @param user
+	 */
+	public HostView(Host user) {
 		super(new GridLayout(1, 3));
-		init(h);
+		init(user);
 	}
 	
-	private void init(Host h) {
+	private void init(Host user) {
 		LocalDate today = LocalDate.now();
 		year = today.getYear();
 		month = today.getMonthValue();
 		
-		host = h;
+		host = user;
 		
 		initVars();
 		displayAllComponents();

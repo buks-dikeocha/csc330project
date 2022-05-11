@@ -23,10 +23,35 @@ public class FullCalendar extends JPanel {
 	private GridBagLayout layout;
 	private GridBagConstraints gbc;
 	
+	/**
+	 * Creates a visual calendar component with previous and next month buttons and title. 
+	 * Takes the month and year to display.
+	 * 
+	 * int month: 1 = January, 12 = December
+	 * boolean reservesEvent: If true will allow the user to schedule events.
+	 * 
+	 * @param month
+	 * @param year
+	 * @param reservesEvent
+	 * @param hostID
+	 */
 	public FullCalendar(int month, int year, boolean reservesEvent, String hostID) {
 		init(month, year, reservesEvent, hostID, null);
 	}
 	
+	/**
+	 * Creates a visual calendar component with previous and next month buttons and title. 
+	 * Takes the month and year to display.
+	 * 
+	 * int month: 1 = January, 12 = December
+	 * boolean reservesEvent: If true will allow the user to schedule events.
+	 * 
+	 * @param month
+	 * @param year
+	 * @param reservesEvent
+	 * @param hostID
+	 * @param attID
+	 */
 	public FullCalendar(int month, int year, boolean reservesEvent, String hostID, String attID) {
 		init(month, year, reservesEvent, hostID, attID);
 	}

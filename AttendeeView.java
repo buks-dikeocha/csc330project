@@ -23,6 +23,12 @@ public class AttendeeView extends Window {
 	
 	private int month, year;
 	
+	/**
+	 * Opens a window which the attendee can search and schedule events.
+	 * Takes an Attendee object.
+	 * 
+	 * @param user
+	 */
 	public AttendeeView(Attendee user) {
 		super(new FlowLayout());
 		init(user);

@@ -1,12 +1,9 @@
 package edu.cuny.csi.csc330.groupproject;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class User {
 	private String userID;
-	private List<Appointment> events;
 	private AccountType accType;
 	private LocalDateTime accCreated;
 	
@@ -20,24 +17,37 @@ public abstract class User {
 	
 	private void init(AccountType type, String userName) {
 		this.userID = userName;
-		
-		this.events = new ArrayList<Appointment>();
+
 		this.accCreated = LocalDateTime.now();
 		this.accType = type;
 	}
 
+	/**
+	 * Returns username.
+	 * Returns String
+	 *  
+	 * @return
+	 */
 	public String getUserID() {
 		return userID;
 	}
 
-	public List<Appointment> getEvents() {
-		return events;
-	}
-
+	/**
+	 * Returns accType variable. 
+	 * Returns AccountType.HOST or AccountType.ATTENDEE
+	 *  
+	 * @return
+	 */
 	public AccountType getAccType() {
 		return accType;
 	}
 
+	/**
+	 * Returns accCreated variable. Date and time when user was created.
+	 * Returns LocalDateTime
+	 *  
+	 * @return
+	 */
 	public LocalDateTime getAccCreated() {
 		return accCreated;
 	}

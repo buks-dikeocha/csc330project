@@ -16,6 +16,9 @@ public class SignInView extends Window{
 	private JTextField userLogin;
 	private JLabel loginLabel;
 	
+	/**
+	 * Opens a window which the user can sign into their host or attendee account.
+	 */
 	public SignInView() {
 		init();
 	}

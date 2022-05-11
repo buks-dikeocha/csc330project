@@ -32,6 +32,15 @@ public class Database {
 	
 	private Database() {}
 	
+	/**
+	 * Creates a new host user with no events and no availability.
+	 * Takes a username string as input.
+	 * 
+	 * Example: registerHost("creative_username")
+	 * 
+	 * @param hostID
+	 * @throws IOException
+	 */
 	public static void registerHost(String hostID) throws IOException {
 		// if hostID in use, throw DatabaseExeption error
 		hostsByID.put(hostID, new Host(hostID));
@@ -48,12 +57,30 @@ public class Database {
 		Database.setAvailability(hostID, hostAv);
 	}
 	
+	/**
+	 * Creates a new attendee user.
+	 * Takes a username as input.
+	 * 
+	 * Example: registerHost(""new_attendee_username)
+	 * 
+	 * @param attendeeID
+	 * @throws IOException
+	 */
 	public static void registerAttendee(String attendeeID) throws IOException {
 		attendeesByID.put(attendeeID, new Attendee(attendeeID));
 		pushUser("ATTENDEE", attendeeID);
 	}
 	
-	public static Host getHost(String hostID) { // single host
+	/**
+	 * Returns an instance of host. Specify the host using its username.
+	 * Returns Host object.
+	 * 
+	 * Example: getHost("exising_host")
+	 * 
+	 * @param hostID
+	 * @return
+	 */
+	public static Host getHost(String hostID) {
 		return hostsByID.get(hostID);
 	}
 	
@@ -215,7 +242,17 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Updates the availability of a host.
+	 * 
+	 * Example: setAvailability("existing_host", list_collection_of_booleans)
+	 * 
+	 * @param hostID
+	 * @param newAv
+	 * @throws IOException
+	 */
 	public static void setAvailability(String hostID, ArrayList<Boolean> newAv) throws IOException {
+		// give DatabaseException for arrays with length >7
 		availabilityByID.put(hostID, newAv);	
 		pushAvailability();
 	}
@@ -225,7 +262,6 @@ public class Database {
 		 * get availability of one host, pass in host userID
 		 */
 		
-		// called when we search
 		return availabilityByID.get(hostID);
 	}
 	
@@ -235,32 +271,72 @@ public class Database {
 		pushEvents();
 	}
 	
+	/**
+	 * Read data from CSV files and import to maps. Must call before attempting to add more events, users, or availability
+	 * 
+	 * @throws IOException
+	 */
 	public static void start() throws IOException {
 		loadUsers();
 		loadAvailability();
 		loadEvents();
 	}
 	
+	
+	/**
+	 * Launch the window that host will use. Specify with host username.
+	 * 
+	 * @param hostID
+	 */
 	public static void launchHost(String hostID) {
 		new HostView(hostsByID.get(hostID));
 	}
 	
+	/**
+	 * Launch the window that attendee will use. Specify with attendee username.
+	 * 
+	 * @param attendeeID
+	 */
 	public static void launchAttendee(String attendeeID) {
 		new AttendeeView(attendeesByID.get(attendeeID));
 	}
-
+	
+	/**
+	 * Returns a map with host usernames mapped to their object.
+	 * Returns Map<String, Host>
+	 * 
+	 * @return
+	 */
 	public static Map<String, Host> getHostsByID() { // get all hosts
 		return hostsByID;
 	}
 
+	/**
+	 * Returns a map with attendee usernames mapped to their object.
+	 * Returns Map<String, Attendee>
+	 * 
+	 * @return
+	 */
 	public static Map<String, Attendee> getAttendeesByID() {
 		return attendeesByID;
 	}
-
+	
+	/**
+	 * Returns a map with host usernames mapped to a list of their availability.
+	 * Returns Map<String, ArrayList<Boolean>>
+	 * 
+	 * @return
+	 */
 	public static Map<String, ArrayList<Boolean>> getAvailabilityByID() {
 		return availabilityByID;
 	}
 
+	/**
+	 * Returns a map with host usernames mapped to a list of their scheduled events.
+	 * Returns Map<String, ArrayList<Appointment>>
+	 * 
+	 * @return
+	 */
 	public static Map<String, ArrayList<Appointment>> getEventsByID() {
 		return eventsByID;
 	}
