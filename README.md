@@ -20,9 +20,7 @@ Future Improvemts:
 - More color to the GUI
 - Configurability settings for GUI and other app functions
 
-
-
 Contributors:
 - buks-dikeocha
-- JoseGuzman02
-- austinli246
+- JoseGuzman02: https://github.com/JoseGuzman02
+- austinli246: https://github.com/JoseGuzman02
